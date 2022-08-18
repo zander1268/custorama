@@ -1,12 +1,132 @@
 import streamlit as st
 from PIL import Image
+#Inital imports
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import lifetimes
+from lifetimes.plotting import plot_period_transactions, plot_calibration_purchases_vs_holdout_purchases
+from lifetimes import BetaGeoFitter, GammaGammaFitter
+from datetime import timedelta
+from datetime import datetime
+from dateutil import parser
+from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import GridSearchCV
+#Load in our data wrangler
+from lifetimes.utils import summary_data_from_transaction_data
+#Import holdout 
+from lifetimes.utils import calibration_and_holdout_data
+#Functions
+    #clean csv
+def clean_transaction_csv(transaction_df,datetime_col,customer_id_col,monetary_value_col):
+    #Remove tansactions less than or equal to zero
+    sub_transaction_df = transaction_df[transaction_df[monetary_value_col]>0]
+    #Subset to only repeat customers
+    repeat_cust_ID = pd.DataFrame(sub_transaction_df.groupby(customer_id_col)[datetime_col].nunique())
+    repeat_cust_ID = list(repeat_cust_ID[repeat_cust_ID[datetime_col]>1].index)
+    sub_transaction_df = sub_transaction_df[sub_transaction_df[customer_id_col].isin(repeat_cust_ID)]
+    #convert datetime_col to datetime64
+#    sub_transaction_df[datetime_col] = pd.to_datetime(sub_transaction_df[datetime_col])
+    #return a df with only repeat customers with orders over 0.00 monetary value
+    return sub_transaction_df
+    #class to return a calibration and holdout df
+class df_ch():
+    def __init__(self,transaction_df=None,customer_id_col=None,datetime_col=None,monetary_value_col=None):
+        #initialized attributes
+        self.transaction_df = transaction_df
+        self.customer_id_col=customer_id_col
+        self.datetime_col=datetime_col
+        self.monetary_value_col=monetary_value_col
+        #save off more attributes
+        self.min_obs_date = parser.parse(transaction_df[datetime_col].min())
+        self.max_obs_date = parser.parse(transaction_df[datetime_col].max())
+        self.eval_period = np.round(((self.max_obs_date-self.min_obs_date).days * (1/3))) #one third of total range
+        self.max_calib_date = self.max_obs_date - timedelta(days=self.eval_period)  
+        self.calib_range_days = (self.max_calib_date - self.min_obs_date).days
+    def df_ch_getdf(self):
+        df = calibration_and_holdout_data(
+        transactions = self.transaction_df, 
+        customer_id_col=self.customer_id_col,
+        datetime_col=self.datetime_col,
+        monetary_value_col=self.monetary_value_col,
+        calibration_period_end = self.max_calib_date, 
+        observation_period_end = self.max_obs_date, 
+        freq = "D")
+        return df
+    #function to capture RMSE for a BGF model
+def bgf_rmse(ch,bgf):
+    df_ch = ch.df_ch_getdf()
+    df_ch["n_transactions_holdout_real"] = df_ch["frequency_holdout"]
+    y_true = df_ch["n_transactions_holdout_real"]
+    y_pred = bgf.predict(t=ch.eval_period, frequency=df_ch['frequency_cal'],
+                         recency=df_ch['recency_cal'],
+                         T=df_ch['T_cal'])
 
-
+    return mean_squared_error(y_true,y_pred,squared=False)
+    #Get real and predicted values from a bgf model
+def bgf_real_v_pred_df(ch,bgf):
+    rfm_cal_holdout = pd.DataFrame()
+    ch_df = ch.df_ch_getdf()
+    rfm_cal_holdout["n_transactions_cal_real"]  = ch_df["frequency_cal"] + 1 #Total calibration days with purchases = calibration frequency + 1
+    rfm_cal_holdout["n_transactions_holdout_real"]  = ch_df["frequency_holdout"] #Total validation days with purchases = validation frequency
+    # the predicted number of transactions
+    rfm_cal_holdout["n_transactions_holdout_pred"] = bgf.predict(t=ch.eval_period, 
+                                                    frequency=ch_df['frequency_cal'], 
+                                                    recency=ch_df['recency_cal'], 
+                                                    T=ch_df['T_cal'])
+    return rfm_cal_holdout[["n_transactions_cal_real","n_transactions_holdout_real", "n_transactions_holdout_pred"]]
+#function to return predicted # transactions for given customer in evaluation period
+def samp_cust_pred_trans(df_ch,sample_customer_id,eval_period):
+    sample_customer = df_ch.loc[sample_customer_id]
+    n_transactions_pred = bgf.predict(t=eval_period,
+                                  frequency=sample_customer['frequency_cal'], 
+                                  recency=sample_customer['recency_cal'], 
+                                  T=sample_customer['T_cal'])
+    return(n_transactions_pred)
 #Header
 st.image("Images/penguins.jpg", use_column_width="always")
-st.title("Custorama CLV Predictions")
+st.title("Winjammer Consulting CLV Engine")
 st.header("This is a header")
+
+#User inputs
+    #File uploader
+uploaded_file = st.file_uploader("Select your transaction csv")
+@st.cache
+def load_data(file):
+    df = pd.read_csv(file)
+    return df
+if uploaded_file is not None:
+    transaction_df = load_data(uploaded_file)
+    st.write(transaction_df)
+    column_names = list(transaction_df.columns)
+        
+#if uploaded_file is not None:
+ #    # Can be used wherever a "file-like" object is accepted:
+  #   transaction_df = pd.read_csv(uploaded_file)
+   #  st.write(transaction_df)
+    ##Identify how columns are titled in your csv
+
+customer_id_coloumn = str(st.selectbox(label="Customer identifier column header",options=column_names))
+datetime_coloumn = str(st.selectbox(label="Transaction date stamp column header",options=column_names))
+monetary_value_coloumn = str(st.selectbox(label="Transaction value column header",options=column_names))
+
+#saved variables from customer inputs
+ch_df_obj = df_ch(transaction_df,customer_id_coloumn,datetime_coloumn,monetary_value_coloumn)
+ch_df = ch_df_obj.df_ch_getdf()
+full_rfm_summary = summary_data_from_transaction_data(transactions=transaction_df,
+                                                      customer_id_col=customer_id_coloumn,
+                                                      datetime_col=datetime_coloumn,
+                                                      monetary_value_col=monetary_value_coloumn)
+
+repeat_transaction_df = clean_transaction_csv(transaction_df,datetime_coloumn,customer_id_coloumn,monetary_value_coloumn)
+
+repeat_rfm_summary = summary_data_from_transaction_data(transactions=repeat_transaction_df,
+                                                      customer_id_col=customer_id_coloumn,
+                                                      datetime_col=datetime_coloumn,
+                                                      monetary_value_col=monetary_value_coloumn,)
+
 #Columns
 col11, col12 = st.columns(2)
 col11.subheader("Column 1")
