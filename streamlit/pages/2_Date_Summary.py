@@ -9,5 +9,5 @@ def load_data(path):
     pen_data = pd.read_csv(path, index_col=0)
     return pen_data
 
-penguins = load_data('.Data/penguins.csv')
+penguins = load_data('./Data/penguins.csv')
 
