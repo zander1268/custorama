@@ -125,10 +125,11 @@ repeat_rfm_summary = summary_data_from_transaction_data(transactions=repeat_tran
                                                       monetary_value_col=monetary_value_coloumn,)
 #Train-test eval
 st.header("Model Fitting")
+penalizer = st.slider("Adjust penalizer strength for optimal fit",0.0,0.1,0.02)
 button1 = st.button("Evaluate model fit")
 if button1:    
     #Iniatialize bgf model
-    bgf = BetaGeoFitter(penalizer_coef=0)
+    bgf = BetaGeoFitter(penalizer_coef=penalizer)
     #Fit model to ch_df
     bgf.fit(
         frequency = ch_df["frequency_cal"], 
@@ -139,15 +140,16 @@ if button1:
     #Return rmse for bgf model
     model_rmse = bgf_rmse(ch_df_obj,bgf)
     st.write(f'Model is accurate to within {round(model_rmse,ndigits=3)} purchases over {int(ch_df_obj.eval_period)} days')
+    #Plot train and eval
+        #TBD
 #ClV Predictions
 st.header("CLV Predictions")
-    #slider
 prediction_period = st.slider("How many months in the future do you want to predict?",3,36,3)
     #Run model button
 button2 = st.button("Return CLV predictions")
 if button2: 
-    gg = GammaGammaFitter(penalizer_coef = 0.001)
-    bgf = BetaGeoFitter(penalizer_coef=0)
+    gg = GammaGammaFitter(penalizer_coef = .001)
+    bgf = BetaGeoFitter(penalizer_coef=penalizer)
     bgf.fit(
         frequency = full_rfm_summary["frequency"], 
         recency = full_rfm_summary["recency"], 
@@ -163,8 +165,71 @@ if button2:
     time=prediction_period, # months
     discount_rate=0.0, # 
     freq ="D")
-    st.write(f'Total revenue from return customers in next {prediction_period} months {np.round(sum(ltv_predictions))}')
-    st.write(pd.DataFrame(ltv_predictions))
+    st.write(f'Total revenue from return customers in next {prediction_period} months: {np.round(sum(ltv_predictions))}')
+    clv_sum_per_day = []
+    date_range = [*range(1, (prediction_period)+1, 1)]
+    for months in date_range:
+        ltv_predictions = gg.customer_lifetime_value(
+        bgf, #our best bgf model
+        full_rfm_summary['frequency'],
+        full_rfm_summary['recency'],
+        full_rfm_summary['T'],
+        full_rfm_summary['monetary_value'],
+        time=months, # months
+        freq ="D")
+        clv_sum_per_day.append(sum(ltv_predictions))
+    #Plot a line graph of cumulative CLV over the prediction period
+    fig1, ax1 = plt.subplots(figsize=(10,5))
+    ax1.plot(date_range,clv_sum_per_day)
+    ax1.set_title(f'Cumulative CLV Next {prediction_period} Months')
+    ax1.set_ylabel("Cumulative CLV")
+    ax1.set_xlabel("Months in The Future")
+    st.pyplot(fig=fig1)
+st.header("Customer Analysis")
+button3 = st.button("Get CLV predictions by customer")
+if button3:
+    #CLV df
+    gg = GammaGammaFitter(penalizer_coef = .001)
+    bgf = BetaGeoFitter(penalizer_coef=penalizer)
+    bgf.fit(
+        frequency = full_rfm_summary["frequency"], 
+        recency = full_rfm_summary["recency"], 
+        T = full_rfm_summary["T"],   
+        weights = None,  
+        verbose = False)
+    gg.fit(repeat_rfm_summary['frequency'],repeat_rfm_summary['monetary_value'])
+    ltv_predictions = gg.customer_lifetime_value(
+    bgf, #our best bgf model
+    full_rfm_summary['frequency'],
+    full_rfm_summary['recency'],
+    full_rfm_summary['T'],
+    full_rfm_summary['monetary_value'],
+    time=prediction_period, # months
+    discount_rate=0.0, # 
+    freq ="D")
+    ltv_predictions_df = pd.DataFrame(ltv_predictions)
+    #Predicted purchases
+    prediction_period_days = prediction_period * 30
+    n_predicted_purchases_base = bgf.conditional_expected_number_of_purchases_up_to_time(prediction_period_days,
+                                                        full_rfm_summary['frequency'],
+                                                        full_rfm_summary['recency'],
+                                                        full_rfm_summary['T'])
+    #Probablity alive at end of observation period
+    prob_alive_now = bgf.conditional_probability_alive(full_rfm_summary['frequency'],full_rfm_summary['recency'],full_rfm_summary['T'])
+    #Plot a histogram of our ltv predictions
+    fig2, ax2 = plt.subplots(figsize=(10,5))
+    ax2.hist(ltv_predictions)
+    ax2.set_title(f'CLV Next {prediction_period} Months')
+    ax2.set_ylabel("Customer Count")
+    ax2.set_xlabel("Predicted CLV")
+    st.pyplot(fig=fig2);
+    joined_df = ltv_predictions_df
+    joined_df["predicted_purchases"] = n_predicted_purchases_base
+    joined_df["probability_alive_now"] = prob_alive_now
+    st.write(joined_df)
+
+
+
 #Columns
 col11, col12 = st.columns(2)
 col11.subheader("Column 1")
