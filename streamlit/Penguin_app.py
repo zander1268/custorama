@@ -1,7 +1,6 @@
 import streamlit as st
 from PIL import Image
 #Inital imports
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -14,9 +13,7 @@ from datetime import datetime
 from dateutil import parser
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import GridSearchCV
-#Load in our data wrangler
 from lifetimes.utils import summary_data_from_transaction_data
-#Import holdout 
 from lifetimes.utils import calibration_and_holdout_data
 #Functions
     #clean csv
@@ -86,9 +83,9 @@ def samp_cust_pred_trans(df_ch,sample_customer_id,eval_period):
                                   T=sample_customer['T_cal'])
     return(n_transactions_pred)
 #Header
-st.image("Images/penguins.jpg", use_column_width="always")
-st.title("Winjammer Consulting CLV Engine")
-st.header("This is a header")
+st.image("Images/windjammer_logo.jpg", use_column_width="always")
+st.title("How much are your customers worth?")
+st.header("Upload your transaction data")
 
 #User inputs
     #File uploader
@@ -126,7 +123,48 @@ repeat_rfm_summary = summary_data_from_transaction_data(transactions=repeat_tran
                                                       customer_id_col=customer_id_coloumn,
                                                       datetime_col=datetime_coloumn,
                                                       monetary_value_col=monetary_value_coloumn,)
-
+#Train-test eval
+st.header("Model Fitting")
+button1 = st.button("Evaluate model fit")
+if button1:    
+    #Iniatialize bgf model
+    bgf = BetaGeoFitter(penalizer_coef=0)
+    #Fit model to ch_df
+    bgf.fit(
+        frequency = ch_df["frequency_cal"], 
+        recency = ch_df["recency_cal"], 
+        T = ch_df["T_cal"],   
+        weights = None,  
+        verbose = False)
+    #Return rmse for bgf model
+    model_rmse = bgf_rmse(ch_df_obj,bgf)
+    st.write(f'Model is accurate to within {round(model_rmse,ndigits=3)} purchases over {int(ch_df_obj.eval_period)} days')
+#ClV Predictions
+st.header("CLV Predictions")
+    #slider
+prediction_period = st.slider("How many months in the future do you want to predict?",3,36,3)
+    #Run model button
+button2 = st.button("Return CLV predictions")
+if button2: 
+    gg = GammaGammaFitter(penalizer_coef = 0.001)
+    bgf = BetaGeoFitter(penalizer_coef=0)
+    bgf.fit(
+        frequency = full_rfm_summary["frequency"], 
+        recency = full_rfm_summary["recency"], 
+        T = full_rfm_summary["T"],   
+        weights = None,  
+        verbose = False)
+    gg.fit(repeat_rfm_summary['frequency'],repeat_rfm_summary['monetary_value'])
+    ltv_predictions = gg.customer_lifetime_value(bgf,
+    full_rfm_summary['frequency'],
+    full_rfm_summary['recency'],
+    full_rfm_summary['T'],
+    full_rfm_summary['monetary_value'],
+    time=prediction_period, # months
+    discount_rate=0.0, # 
+    freq ="D")
+    st.write(f'Total revenue from return customers in next {prediction_period} months {np.round(sum(ltv_predictions))}')
+    st.write(pd.DataFrame(ltv_predictions))
 #Columns
 col11, col12 = st.columns(2)
 col11.subheader("Column 1")
@@ -142,10 +180,7 @@ st.markdown("Markdown **syntax** *works*")
 '## Magic'
 st.write('<h2 style="text-align:center">Text aligned with Html</h2>',)
 #Widgets
-st.header("Widgets")
-button1 = st.button("This is a button")
-if button1:
-    st.write("You clicked button")
+
 check = st.checkbox("Please check this box")
 if check:
     st.write("You checked box")
@@ -154,7 +189,7 @@ else:
 #Radio button
 st.subheader("Radio Button")
 animal_options = ["Cats","Dogs","Pigs"]
-fav_animal = st.radio("Which animal is your favorite?",animal_options)
+fav_animal = st.radioxf("Which animal is your favorite?",animal_options)
 button2 = st.button("Submit animal")
 if button2:
     st.write(f'You selected {fav_animal} as your fav animal')
