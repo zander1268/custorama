@@ -17,12 +17,14 @@ To accomplish this project, Olist has hired Windjammer Consulting, a data-scienc
 To test out the app for accuracy, Olist has provided a full transaction data set of purchases from all vendors and asked Windjammer Consulting to return CLV predictions with minimal error (RMSE).
 If the model passes muster, they want Windjammer Consulting to create an application that allows merchants to upload their own data and retrieve predictions.
 
-See on website: www.olist.com
+See more on website: www.olist.com
 
 ## Data
 
-The data for this project was sourced from a [Olist Kaggle Data Set](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) containing information on 99,441 online transactions from 96,096 unique customers. 
-Each observation corresponds to a unique transaction and is associated with 20 columns of information about their customer (e.g. voicemail plan, daytime minutes) including whether or not the customer churned (our target). The target is imbalanced with the large majority of observations falling in the churn = False binary classification. The data contains phone numbers from the San Francisco bay area associated with customers evenly spread out across 50 U.S. states. There is no indication of when this data was collected.
+The data for this project was sourced from a [Olist data base provided to Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) containing information on 99,441 online transactions from 96,096 unique customers. Transactions included in the data ranged 773 days, from 2016-09-04 to 2018-10-17.
+
+Joining files from the data base created a dataframe where rows corresponded to unique transactions with the necessary features for CLV modeling; customer identifier, transaction time-stamp, and the monetary value of the transaction.
+
 
 ## Methods
 This project focuses on solving a classification problem with a predictive data science model. The problem at hand is predicting a customer's churn status (true/false). The project uses an iterative approach to building a predictive model that's both accurate and interpretable. In the process, I iterated through several model types, feature engineering methods, and hyperparameters.
