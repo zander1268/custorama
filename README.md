@@ -23,10 +23,24 @@ See more on website: www.olist.com
 
 The data for this project was sourced from a [Olist data base provided to Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) containing information on 99,441 online transactions from 96,096 unique customers. Transactions included in the data ranged 773 days, from 2016-09-04 to 2018-10-17.
 
-Joining files from the data base created a dataframe where rows corresponded to unique transactions with the necessary features for CLV modeling; customer identifier, transaction time-stamp, and the monetary value of the transaction.
+Joining files from the data base created a dataframe where rows corresponded to unique transactions with the necessary features for CLV modeling; a unique customer identifier, transaction time-stamp, and the monetary value of the transaction.
 
 
 ## Methods
+CLV is the present value of all future cash flows of a current customer. Given the application of the model, calculating the value of a customer n periods into the future, we'll estimate a customer's probability of being alive n periods of time in the future and use this parameter to discount the frequency and monetary value of their purchases. Thus the forumla becomes CLV at time T = (Transactions per Period X Average Value Per Transaction X Probability of Being Active at Time T).
+
+I used a heirarchical modeling approach estimate each of these three elements of CLV. 
+
+**Beta geometric negative binomial distribution (BD/NBD) model**
+- Used to estimate **Probability of Being Active at Time T** and **Transacitons per Period**
+- After each transaction, an individual has a p_i probability of de-activating (never buying again)
+- Each individual, i, has a hidden transaction per period rate (lambda_i) and probability of de-activating following a purchase (p_i)
+- Individual lambda_i and p_i parameters are contrained by population wide Gamma and a Beta distribution respectively
+- Individuals purchases follow a Poisson process with rate lambda_i*t 
+
+
+
+To predict CLV 
 This project focuses on solving a classification problem with a predictive data science model. The problem at hand is predicting a customer's churn status (true/false). The project uses an iterative approach to building a predictive model that's both accurate and interpretable. In the process, I iterated through several model types, feature engineering methods, and hyperparameters.
 
 ## Results
