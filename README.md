@@ -31,51 +31,37 @@ CLV is the present value of all future cash flows of a current customer. Given t
 
 I used a heirarchical modeling approach estimate each of these three elements of CLV. 
 
-**Beta geometric negative binomial distribution (BD/NBD) model**
+**Beta geometric negative binomial distribution (BG/NBD) model**
 - Used to estimate **Probability of Being Active at Time T** and **Transacitons per Period**
 - After each transaction, an individual has a p_i probability of de-activating (never buying again)
 - Each individual, i, has a hidden transaction per period rate (lambda_i) and probability of de-activating following a purchase (p_i)
 - Individual lambda_i and p_i parameters are contrained by population wide Gamma and a Beta distribution respectively
 - Individuals purchases follow a Poisson process with rate lambda_i*t 
 
+**Gamma gamma model (GG)**
+- Used to estimate **Average Value Per Transaction**
+- For any given customer, total spend across x transactions is distributed gamma
 
 
-To predict CLV 
-This project focuses on solving a classification problem with a predictive data science model. The problem at hand is predicting a customer's churn status (true/false). The project uses an iterative approach to building a predictive model that's both accurate and interpretable. In the process, I iterated through several model types, feature engineering methods, and hyperparameters.
 
 ## Results
-The final model significantly improved Telecom Inc.'s ability to predict which customers are likely to churn. Compared to a baseline model, the final model improved F1 score by 0.55. 
-- **F1 Score: 0.80**
-- **Precision:** 0.90
-- **Recall:** 0.72
+**BG/NBD Model**
+- 0.142 RMSE (transactions)
+**GG Model**
+- 6.62 RMSE (average transaction value)
 
-![Precision & Recall Curve](Visuals/Final_Model_Precision_Recall.png)
+![Dummy model performance](visuals/dummy_model_performance_repeat_purchasers.png)
 
-Our model balances recall and precision to meet Telecom Inc.'s business need to identify high risk customers without overpredicting churn.
-
-![Confusion Matrix](Visuals/rf_confusion_matrix.png)
-
-The final model makes correct predictions 95% of the time. The model is very strong at correctly predicting which customers are unlikely to churn and minimizing false positives. The model struggles more with capturing all churned customers although when it does predict churn, it's highly accurate.
-
-![Customer Service Calls](Visuals/Customer_Service_Calls_Day_Minutes.png)
-
-The final model is interpretable which is very useful for Telecom Inc. They can use the model to identify a given customer's churn likelihood and which factors influenced their risk profile. Armed with this information, they can take targeted interventions to save the customer. For example, if the customer has many customer service calls, Telecom Inc. can pair them with their most experienced customer service reps to give them the best experience possible. If the customer has a lot of day-time usage, we can offer them a discount on the service. For customers that aren't at risk of churning, they can withhold costly interventions.
+![Final BG/NBD model performance](visuals/final_bgf_model_performance.png)
 
 
 ## Conclusions
-
-This predictive algorythm solves many of Telecom Inc.'s business challenges related to customer churn
-- **Identifies customers who are likely to churn**
-- **Seperates high risk customers from low risk customers so they can focus support resources where it's most needed**
-- **Identifies key features connected with churn so customer support can engage high risk customers with personalized account saving interventions like discounts or additional support.**
+TBD
 
 ### Limitations & Next Steps
 
-Additional data and model tuning can further improve the model.
+TBD
 
-- **Limitations** Our model misses 28% of churning customers. The final model is overly fit to training data because F1 score dropped significantly from training to test evaluation.
-- **Next Steps** More examples of churn customers to balance classes will improve overfitting issues. Adding customer payment information will improve accuracy. I can explore black-box models to improve recall.
-- **Predicting undesirable outcomes.** This modeling could identify animals that are more likely to have undesirable outcomes (e.g. Euthanasia) for targeted medical support or outreach.
  
 ## For More Information
 
