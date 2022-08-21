@@ -165,7 +165,9 @@ if button2:
     time=prediction_period, # months
     discount_rate=0.0, # 
     freq ="D")
-    st.write(f'Total revenue from return customers in next {prediction_period} months: {np.round(sum(ltv_predictions))}')
+    #Predicted clv df
+    ltv_predictions = pd.DataFrame(ltv_predictions)
+    st.write(f'Total revenue from return customers in next {prediction_period} months: {np.round(ltv_predictions["clv"].sum())}')
     clv_sum_per_day = []
     date_range = [*range(1, (prediction_period)+1, 1)]
     for months in date_range:
