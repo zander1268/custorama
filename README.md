@@ -48,6 +48,7 @@ I used a heirarchical modeling approach estimate each of these three elements of
 **BG/NBD Model** 
 - Final Model: 0.14 RMSE (transactions)
 - Dummy Model: 0.82 RMSE (transactions)
+
 **GG Model**
 - 6.62 RMSE (average transaction value)
 
