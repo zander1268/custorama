@@ -15,8 +15,23 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import GridSearchCV
 from lifetimes.utils import summary_data_from_transaction_data
 from lifetimes.utils import calibration_and_holdout_data
+from io import BytesIO
+from pyxlsb import open_workbook as open_xlsb
+import xlsxwriter
+
 #Functions
     #clean csv
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    format1 = workbook.add_format({'num_format': '0.00'}) 
+    worksheet.set_column('A:A', None, format1)  
+    writer.save()
+    processed_data = output.getvalue()
+    return processed_data
 def clean_transaction_csv(transaction_df,datetime_col,customer_id_col,monetary_value_col):
     #Remove tansactions less than or equal to zero
     sub_transaction_df = transaction_df[transaction_df[monetary_value_col]>0]
@@ -98,34 +113,36 @@ if uploaded_file is not None:
     transaction_df = load_data(uploaded_file)
     st.write(transaction_df)
     column_names = list(transaction_df.columns)
-        
-#if uploaded_file is not None:
- #    # Can be used wherever a "file-like" object is accepted:
-  #   transaction_df = pd.read_csv(uploaded_file)
-   #  st.write(transaction_df)
-    ##Identify how columns are titled in your csv
-
-customer_id_coloumn = str(st.selectbox(label="Customer identifier column header",options=column_names))
-datetime_coloumn = str(st.selectbox(label="Transaction date stamp column header",options=column_names))
-monetary_value_coloumn = str(st.selectbox(label="Transaction value column header",options=column_names))
-
+    #column_names = ["select column...", *column_names]
+    customer_id_coloumn = str(st.selectbox(label="Customer identifier column header",options=column_names))
+    datetime_coloumn = str(st.selectbox(label="Transaction date stamp column header",options=column_names))
+    monetary_value_coloumn = str(st.selectbox(label="Transaction value column header",options=column_names))
+else:
+    st.write("WAIT: Please upload transaction data that includes; transaction timestamp, transaciton value, and unique customer ID associated with order")
 #saved variables from customer inputs
-ch_df_obj = df_ch(transaction_df,customer_id_coloumn,datetime_coloumn,monetary_value_coloumn)
-ch_df = ch_df_obj.df_ch_getdf()
-full_rfm_summary = summary_data_from_transaction_data(transactions=transaction_df,
-                                                      customer_id_col=customer_id_coloumn,
-                                                      datetime_col=datetime_coloumn,
-                                                      monetary_value_col=monetary_value_coloumn)
+if uploaded_file is not None:
+    check = st.checkbox("Columns selected, ready to move to modeling")
+    if check:
+        ch_df_obj = df_ch(transaction_df,customer_id_coloumn,datetime_coloumn,monetary_value_coloumn)
+        ch_df = ch_df_obj.df_ch_getdf()
+        full_rfm_summary = summary_data_from_transaction_data(transactions=transaction_df,
+                                                            customer_id_col=customer_id_coloumn,
+                                                            datetime_col=datetime_coloumn,
+                                                            monetary_value_col=monetary_value_coloumn)
 
-repeat_transaction_df = clean_transaction_csv(transaction_df,datetime_coloumn,customer_id_coloumn,monetary_value_coloumn)
+        repeat_transaction_df = clean_transaction_csv(transaction_df,datetime_coloumn,customer_id_coloumn,monetary_value_coloumn)
 
-repeat_rfm_summary = summary_data_from_transaction_data(transactions=repeat_transaction_df,
-                                                      customer_id_col=customer_id_coloumn,
-                                                      datetime_col=datetime_coloumn,
-                                                      monetary_value_col=monetary_value_coloumn,)
+        repeat_rfm_summary = summary_data_from_transaction_data(transactions=repeat_transaction_df,
+                                                            customer_id_col=customer_id_coloumn,
+                                                            datetime_col=datetime_coloumn,
+                                                            monetary_value_col=monetary_value_coloumn,)
+        st.write("Now you're ready to select penalizer strength. Tip, start with 0.00 and work your way up till you find the lowest error.")
+    else:
+        st.write("WAIT: Please select your column headers")
+
 #Train-test eval
 st.header("Model Fitting")
-penalizer = st.slider("Adjust penalizer strength for optimal fit",0.0,0.1,0.02)
+penalizer = st.slider("Adjust penalizer strength for optimal fit",0.0,0.1,0.0,.02)
 button1 = st.button("Evaluate model fit")
 if button1:    
     #Iniatialize bgf model
@@ -144,7 +161,7 @@ if button1:
         #TBD
 #ClV Predictions
 st.header("CLV Predictions")
-prediction_period = st.slider("How many months in the future do you want to predict?",3,36,3)
+prediction_period = st.slider("How many months in the future do you want to predict?",3,36,12,3)
     #Run model button
 button2 = st.button("Return CLV predictions")
 if button2: 
@@ -228,53 +245,9 @@ if button3:
     joined_df = ltv_predictions_df
     joined_df["predicted_purchases"] = n_predicted_purchases_base
     joined_df["probability_alive_now"] = prob_alive_now
-    st.write(joined_df)
-
-
-
-#Columns
-col11, col12 = st.columns(2)
-col11.subheader("Column 1")
-col12.subheader("Column 2")
-
-col21, col22, col23 = st.columns([3,2,1])
-col21.write("Large column Text will wrap around if there is enough space")
-col22.write("medium column")
-col23.write("small column")
-#Markdown
-st.markdown("Markdown **syntax** *works*")
-'Markdown'
-'## Magic'
-st.write('<h2 style="text-align:center">Text aligned with Html</h2>',)
-#Widgets
-
-check = st.checkbox("Please check this box")
-if check:
-    st.write("You checked box")
-else:
-    st.write("The box was not checked")
-#Radio button
-st.subheader("Radio Button")
-animal_options = ["Cats","Dogs","Pigs"]
-fav_animal = st.radioxf("Which animal is your favorite?",animal_options)
-button2 = st.button("Submit animal")
-if button2:
-    st.write(f'You selected {fav_animal} as your fav animal')
-#Multi select
-like_animals = st.multiselect("Which animals do you like?",animal_options)
-st.write(like_animals)
-st.write(f'The animal you liked first was {like_animals[0]}')
-#slider
-num_pets = st.slider("How many pets is too many?",2,20,2)
-#Text input
-pet_name = st.text_input("What is your pets name?",value="I don't have a pet")
-st.write(pet_name)
-
-#Sidebar
-st.sidebar.title("Sidebar")
-side_button = st.sidebar.button("Press Me")
-if side_button:
-    st.write("Button was pressed")
-
-
-
+    joined_df.reset_index(inplace=True)
+    joined_df
+    df_xlsx = to_excel(joined_df)
+    st.download_button(label='📥 Download Current Result',
+                                data=df_xlsx ,
+                                file_name= 'windjammer_clv_model.xlsx')
