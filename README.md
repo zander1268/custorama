@@ -58,6 +58,8 @@ Dummy Model             |  BG/NBD Model
 - Final Model: 6.63 RMSE (average transaction value)
 - Dummy Model: 192.78 RMSE (average transaction value)
 
+**Combined Results**
+![Predicted CLV ](visuals/cumulative_clv_future.png)
 
 ## Conclusions
 TBD
