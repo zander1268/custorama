@@ -5,19 +5,19 @@
 ![windjammer header](visuals/windjammer_logo.jpg)
 
 ## Overview
-This project creates a user-friendly customer lifetime value (CLV) prediction engine able to take in transaction data and return important CLV predictions
-for the merchant's customer base over a selected period of time in the future.
+This project creates a user-friendly customer lifetime value (CLV) prediction engine able to take in transaction data and return important CLV predictions for the merchant's entire customer base or individual customers over a selected period of time in the future.
 
 ## Business Problem
-Olist, the largest e-commerce department store in Brazil, allows small business merchants to sell their goods through a single marketplace. Olist makes their money taking a commision on orders placed on their marketplace. They want to help their merchants sell more products and retain those merchants on their marketplace by providing top-notch technical solutions. 
-Olist has decided to create a user friendly app to help their merchants better understand the customers who buy their products through the Olist marketplace. Empowering their merchants with customer insights will help merchants improve their strategy, increasing sales and commisions through Olist. The addition of a customer insight tool will also improve the retention of merchants on the Olist network. 
+How much are your customers worth? CLV is a north star metric for marketers and key to many business analyses; sales/marketing activity ROI, sales forecasts, company valuation, churn mitigation tactics, and customer persona analysis. 
+
+Olist, the largest e-commerce department store in Brazil, wants to help the small business merchants who sell goods through their marketplace undrstand their CLV. Olist makes their money taking a commision on orders placed on their marketplace. They want to help their merchants sell more products and retain those merchants on their marketplace by providing top-notch business analytics.
+
+Olist has decided to create a user friendly app to help their merchants better understand the customers who buy their products through the Olist marketplace. Empowering their merchants with CLV analysis will help merchants improve their strategy and increasing sales and commisions through Olist. The addition of a customer insight tool will also improve the retention of merchants on the Olist network. 
 
 To accomplish this project, Olist has hired Windjammer Consulting, a data-science consulting firm.
 
 To test out the app for accuracy, Olist has provided a full transaction data set of purchases from all vendors and asked Windjammer Consulting to return CLV predictions with minimal error (RMSE).
 If the model passes muster, they want Windjammer Consulting to create an application that allows merchants to upload their own data and retrieve predictions.
-
-See more on website: www.olist.com
 
 ## Data
 
@@ -27,7 +27,7 @@ Joining files from the data base created a dataframe where rows corresponded to 
 
 
 ## Methods
-CLV is the present value of all future cash flows of a current customer. Given the application of the model, calculating the value of a customer n periods into the future, we'll estimate a customer's probability of being alive n periods of time in the future and use this parameter to discount the frequency and monetary value of their purchases. Thus the forumla becomes CLV at time T = (Transactions per Period X Average Value Per Transaction X Probability of Being Active at Time T).
+CLV is the present value of all future cash flows of a current customer. Given the application of the model, calculating the value of a customer n periods into the future, we'll estimate a customer's probability of being alive n periods of time in the future and use this parameter to discount the product of frequency and monetary value of their purchases. Thus the forumla becomes CLV at time T = (Transactions per Period X Average Value Per Transaction X Probability of Being Active at Time T).
 
 I used a heirarchical modeling approach estimate each of these three elements of CLV. 
 
