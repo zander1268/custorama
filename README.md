@@ -60,7 +60,9 @@ Dummy Model             |  BG/NBD Model
 
 **Combined Results**
 
-![Predicted CLV ](visuals/cumulative_clv_future.png)
+Cumulative CLV             |  CLV Distribution
+:-------------------------:|:-------------------------:
+![Predicted CLV ](visuals/cumulative_clv_future.png)  |  ![Cumulative CLV ](visuals/dist_of_clv_in_next_12months.png)
 
 ## Conclusions
 TBD
