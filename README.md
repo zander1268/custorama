@@ -64,6 +64,12 @@ Cumulative CLV             |  CLV Distribution
 :-------------------------:|:-------------------------:
 ![Predicted CLV ](visuals/cumulative_clv_future.png)  |  ![Cumulative CLV ](visuals/dist_of_clv_in_next_12months.png)
 
+
+
+Purchase Rate              |  De-activate Risk |  Transaction Value
+:-------------------------:|:-------------------------:|:-------------------------:
+![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)  |  ![De-activate risk distrobution](visuals/beta_deactivate_risk_dist.png) |  ![Avg Transaction value distribution](visuals/avg_transaction_value_dist.png)
+
 ## Conclusions
 TBD
 
