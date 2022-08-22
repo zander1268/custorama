@@ -48,6 +48,7 @@ I used a heirarchical modeling approach estimate each of these three elements of
 **BG/NBD Model** 
 - Final Model: 0.14 RMSE (transactions)
 - Dummy Model: 0.82 RMSE (transactions)
+
 Dummy Model             |  BG/NBD Model
 :-------------------------:|:-------------------------:
 ![Dummy model performance](visuals/dummy_model_performance_repeat_purchasers.png)  |  ![Final BG/NBD model performance](visuals/final_bgf_model_performance.png)
