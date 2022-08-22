@@ -55,11 +55,8 @@ Dummy Model             |  BG/NBD Model
 
 
 **GG Model**
-- 6.62 RMSE (average transaction value)
-
-![Dummy model performance](visuals/dummy_model_performance_repeat_purchasers.png)
-
-![Final BG/NBD model performance](visuals/final_bgf_model_performance.png)
+- Final Model: 6.63 RMSE (average transaction value)
+- Dummy Model: 192.78 RMSE (average transaction value)
 
 
 ## Conclusions
