@@ -40,9 +40,11 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 - Monetary_value: represents the average value of a given customer’s purchases. This is equal to the sum of all a customer’s purchases divided by the total number of purchases.
 
 **Beta geometric negative binomial distribution (BG/NBD) model**
+
 ***Features***
 - Model to estimate **Probability of being active at time T** and **Expected number of transactions at time T**
 - Using Frequency, T, and Recency features, each unique customer is assigned x, t_x, T values where x is the number of transactions at some period of time (0, T], and t_x (<=T) is the time of the last purchase.
+
 ***Latent Features**
 p = probability customer de-activates after purchase
  s = shape parameter for dist of p
@@ -57,8 +59,11 @@ p = probability customer de-activates after purchase
 - Each individual, i, has a hidden transaction per period rate (λ_i) and probability of de-activating following a purchase (p_i)
 - Individual λ_i and p_i parameters are constrained by population wide Gamma and a Beta distribution respectively
 - Individuals purchases follow a Poisson process with rate λ_i*t
+
 ***Formulas***
+Probability of Being Active
 ![Probability of Being Active](https://miro.medium.com/max/1400/0*XVWT9RgmE2AbrJrt)
+Expected number of transactions
 ![Expected number of transactions](https://miro.medium.com/max/1388/0*ZMHKxRDAocOn_cSp)
 
 
