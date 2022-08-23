@@ -76,9 +76,10 @@ Cumulative CLV             |  CLV Distribution
 
 
 
-
+**Streamlit App**
 
 Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine-jlp5js.streamlitapp.com/) capable of reproducing the above results as well as taking in new transaction data and returning CLV predictions.
+![Winjammer Consulting Clv App ](visuals/windjammer_consulting_clv_app.png)
 
 ## Conclusions
 TBD
