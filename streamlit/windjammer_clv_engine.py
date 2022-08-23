@@ -98,7 +98,7 @@ def samp_cust_pred_trans(df_ch,sample_customer_id,eval_period):
                                   T=sample_customer['T_cal'])
     return(n_transactions_pred)
 #Header
-st.image('https://github.com/zander1268/custorama/blob/main/streamlit/Images/windjammer_logo.jpg?raw=true', use_column_width="always")
+st.image("https://github.com/zander1268/custorama/blob/main/streamlit/Images/windjammer_logo.jpg?raw=true", use_column_width="always")
 st.title("How much are your customers worth?")
 st.header("Upload your transaction data")
 
@@ -119,6 +119,7 @@ if uploaded_file is not None:
     monetary_value_coloumn = str(st.selectbox(label="Transaction value column header",options=column_names))
 else:
     st.write("WAIT: Please upload transaction data that includes; transaction timestamp, transaciton value, and unique customer ID associated with order")
+    st.image("https://github.com/zander1268/custorama/blob/main/streamlit/Images/transaction_file_example.png?raw=true", use_column_width="always")
 #saved variables from customer inputs
 if uploaded_file is not None:
     check = st.checkbox("Columns selected, ready to move to modeling")
@@ -155,10 +156,12 @@ if button1:
         weights = None,  
         verbose = False)
     #Return rmse for bgf model
-    model_rmse = bgf_rmse(ch_df_obj,bgf)
-    st.write(f'Model is accurate to within {round(model_rmse,ndigits=3)} purchases over {int(ch_df_obj.eval_period)} days')
-    #Plot train and eval
-        #TBD
+    if bgf.predict(t=ch_df_obj.eval_period, frequency=ch_df['frequency_cal'],recency=ch_df['recency_cal'],T=ch_df['T_cal']).isna().sum() == 0:
+        model_rmse = bgf_rmse(ch_df_obj,bgf)
+        st.write(f'Model is accurate to within {round(model_rmse,ndigits=3)} purchases over {int(ch_df_obj.eval_period)} days')
+    else:
+        st.write("WAIT: Reduce penalizer strength then press 'Evaluate model fit' again")
+        
 #ClV Predictions
 st.header("CLV Predictions")
 prediction_period = st.slider("How many months in the future do you want to predict?",3,36,12,3)
@@ -251,3 +254,5 @@ if button3:
     st.download_button(label='📥 Download Current Result',
                                 data=df_xlsx ,
                                 file_name= 'windjammer_clv_model.xlsx')
+st.image("https://github.com/zander1268/custorama/blob/main/streamlit/Images/windjammer_consulting_footer.jpg?raw=true", use_column_width="always")
+st.write("For questions and personalized CLV consultation for your business, connect with Alex [LinkedIn](https://www.linkedin.com/in/alex-fitzgerald-0734076a/) , [GitHub](https://github.com/zander1268)")
