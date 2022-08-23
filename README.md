@@ -25,9 +25,12 @@ The data for this project was sourced from a [Olist data base provided to Kaggle
 
 Joining files from the data base created a dataframe where rows corresponded to unique transactions with the necessary features for CLV modeling; a unique customer identifier, transaction time-stamp, and the monetary value of the transaction.
 
+Less than 3% of customers in the data ordered more than once which created a significant class imbalence for the modeling techniques used. In a business setting, 3% re-purchase rate is very low. To deal with the class imbalence, I focused the validation of the model on a subset of the data including only users who purchased more than once. The Streamlit app, which is meant to be scalable, doesn't subset data. For Streamlit, I assumed that most businesses don't have this degree of class imbalence and managers will prefer to return predictions for all their customers.
 
 ## Methods
 CLV is the present value of all future cash flows of a current customer. Given the application of the model, calculating the value of a customer n periods into the future, we'll estimate a customer's probability of being alive n periods of time in the future and use this parameter to discount the product of frequency and monetary value of their purchases. Thus the forumla becomes CLV at time T = (Transactions per Period X Average Value Per Transaction X Probability of Being Active at Time T).
+
+Many CLV formulas will also consider margin in the calculations. For the purposes of this project, because I didn't have access to product margin information I didn't include it. 
 
 I used a heirarchical modeling approach to estimate each of these three elements of CLV. This approach combines the BG/NBD model as proposed by [Fader, Hardie and Lee](http://www.brucehardie.com/papers/bgnbd_2004-04-20.pdf) with a Gamma-Gamma model of monetary value proposed by [Fader and Hardie] in follow up to their work on the BG/NBD model. Data preparation and modeling was done with the Lifetimes package [Copyright 2015, Cameron Davidson-Pilon](https://lifetimes.readthedocs.io/en/latest/). 
 
@@ -83,7 +86,6 @@ Probability of Being Active |  Expected number of transactions
 
 ***Formula***
 Average Value Per Transaction
-
 ![Probability of Being Active](https://miro.medium.com/max/1400/0*WUSvMTpSgGFq-lA2)
 
 ## Results
@@ -121,8 +123,8 @@ Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine
 TBD
 
 ### Limitations & Next Steps
-
-TBD
+Doesn't include product margin information
+Subset to return customers only
 
  
 ## For More Information
