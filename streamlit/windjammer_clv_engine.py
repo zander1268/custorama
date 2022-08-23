@@ -98,7 +98,7 @@ def samp_cust_pred_trans(df_ch,sample_customer_id,eval_period):
                                   T=sample_customer['T_cal'])
     return(n_transactions_pred)
 #Header
-st.image("./Images/windjammer_logo.jpg", use_column_width="always")
+st.image('Images/windjammer_logo.jpg', use_column_width="always")
 st.title("How much are your customers worth?")
 st.header("Upload your transaction data")
 
