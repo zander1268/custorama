@@ -66,19 +66,24 @@ Probability of Being Active |  Expected number of transactions
 ![Probability of Being Active](https://miro.medium.com/max/1400/0*XVWT9RgmE2AbrJrt)|  ![Expected number of transactions](https://miro.medium.com/max/1388/0*ZMHKxRDAocOn_cSp)
 
 **Gamma gamma model (GG)**
+
 ***Features***
 - Used to estimate **Average Value Per Transaction**
 - Takes Frequency and Monetary_value features
+
 ***Latent Features***
 - Z = avg transaction value of purchases in the future
   - p = shape parameter for dist of Z
   - v = scale parameter for dist of Z
+
 ***Assumptions***
 - Monetary value of users’ transactions is random around their mean transaction value.
 - Mean transaction value varies across users but doesn’t vary for an individual user over time.
 - Mean transaction values is Gamma distributed across customers.
+
 ***Formula***
 Average Value Per Transaction
+
 ![Probability of Being Active](https://miro.medium.com/max/1400/0*WUSvMTpSgGFq-lA2)
 
 ## Results
