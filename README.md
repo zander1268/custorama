@@ -31,7 +31,7 @@ CLV is the present value of all future cash flows of a current customer. Given t
 
 I used a heirarchical modeling approach to estimate each of these three elements of CLV. This approach combines the BG/NBD model as proposed by [Fader, Hardie and Lee](http://www.brucehardie.com/papers/bgnbd_2004-04-20.pdf) with a Gamma-Gamma model of monetary value proposed by [Fader and Hardie] in follow up to their work on the BG/NBD model. Data preparation and modeling was done with the Lifetimes package [Copyright 2015, Cameron Davidson-Pilon](https://lifetimes.readthedocs.io/en/latest/). 
 
-**Data preperation with Lifetimes**
+### Data preperation with Lifetimes
 The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured into a [recency-frequency-monetary_value matrix](https://lifetimes.readthedocs.io/en/latest/Quickstart.html#the-shape-of-your-data). Helpfully, the package provides utility functions for easily transforming raw transaction data into the required format with these features.
 - Index (ID): unique customer identifier (unique to table)
 - Frequency: represents the number of repeat purchases the customer has made.
@@ -39,15 +39,15 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 - Recency: age of the customer when they made their most recent purchases. This is equal to the duration between a customer’s first purchase and their latest purchase.
 - Monetary_value: represents the average value of a given customer’s purchases. This is equal to the sum of all a customer’s purchases divided by the total number of purchases.
 
-**Beta geometric negative binomial distribution (BG/NBD) model**
+###  Beta geometric negative binomial distribution (BG/NBD) model
 
 ***Features***
 - Model to estimate **Probability of being active at time T** and **Expected number of transactions at time T**
 - Using Frequency, T, and Recency features, each unique customer is assigned x, t_x, T values where x is the number of transactions at some period of time (0, T], and t_x (<=T) is the time of the last purchase.
 
 ***Latent Features**
-p = probability customer de-activates after purchase
- s = shape parameter for dist of p
+- p = probability customer de-activates after purchase
+-  s = shape parameter for dist of p
  β =  scale parameter for dist of p 
 λ = transaction rate
   r = shape parameter for dist of λ
