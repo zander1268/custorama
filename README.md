@@ -45,14 +45,14 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 - Model to estimate **Probability of being active at time T** and **Expected number of transactions at time T**
 - Using Frequency, T, and Recency features, each unique customer is assigned x, t_x, T values where x is the number of transactions at some period of time (0, T], and t_x (<=T) is the time of the last purchase.
 
-***Latent Features**
+***Latent Features***
 - p = probability customer de-activates after purchase
--- s = shape parameter for dist of p
- β =  scale parameter for dist of p 
-λ = transaction rate
-  r = shape parameter for dist of λ
-  α = scale parameter for dist of λ
-μ = customer lifetime (slope of the exponential dist.)
+  - s = shape parameter for dist of p
+  - β =  scale parameter for dist of p 
+- λ = transaction rate
+  - r = shape parameter for dist of λ
+  - α = scale parameter for dist of λ
+- μ = customer lifetime (slope of the exponential dist.)
 
 ***Assumptions***
 - After each transaction, an individual has a p_i probability of de-activating
