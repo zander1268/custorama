@@ -63,6 +63,7 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 ***Formulas***
 Probability of Being Active
 ![Probability of Being Active](https://miro.medium.com/max/1400/0*XVWT9RgmE2AbrJrt)
+
 Expected number of transactions
 ![Expected number of transactions](https://miro.medium.com/max/1388/0*ZMHKxRDAocOn_cSp)
 
