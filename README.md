@@ -40,13 +40,27 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 - Monetary_value: represents the average value of a given customer’s purchases. This is equal to the sum of all a customer’s purchases divided by the total number of purchases.
 
 **Beta geometric negative binomial distribution (BG/NBD) model**
-- Model to estimate **Probability of Being Active at Time T** and **Transacitons per Period**
-- Using the features; Frequency, T, and Recency each unique customer is assigned an X value where X = x, t_x, T, where x is the number of transactions at some period of time (0, T], and t_x (<=T) is the time of the last purchase.
-- 
-- After each transaction, an individual has a p_i probability of de-activating (never buying again)
-- Each individual, i, has a hidden transaction per period rate (lambda_i) and probability of de-activating following a purchase (p_i)
-- Individual lambda_i and p_i parameters are constrained by population wide Gamma and a Beta distribution respectively
-- Individuals purchases follow a Poisson process with rate lambda_i*t 
+***Features***
+- Model to estimate **Probability of being active at time T** and **Expected number of transactions at time T**
+- Using Frequency, T, and Recency features, each unique customer is assigned x, t_x, T values where x is the number of transactions at some period of time (0, T], and t_x (<=T) is the time of the last purchase.
+***Latent Features**
+p = probability customer de-activates after purchase
+ s = shape parameter for dist of p
+ β =  scale parameter for dist of p 
+λ = transaction rate
+  r = shape parameter for dist of λ
+  α = scale parameter for dist of λ
+μ = customer lifetime (slope of the exponential dist.)
+
+***Assumptions***
+- After each transaction, an individual has a p_i probability of de-activating
+- Each individual, i, has a hidden transaction per period rate (λ_i) and probability of de-activating following a purchase (p_i)
+- Individual λ_i and p_i parameters are constrained by population wide Gamma and a Beta distribution respectively
+- Individuals purchases follow a Poisson process with rate λ_i*t
+***Formulas***
+![Probability of Being Active](https://miro.medium.com/max/1400/0*XVWT9RgmE2AbrJrt)
+![Expected number of transactions](https://miro.medium.com/max/1388/0*ZMHKxRDAocOn_cSp)
+
 
 **Gamma gamma model (GG)**
 - Used to estimate **Average Value Per Transaction**
