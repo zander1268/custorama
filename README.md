@@ -69,12 +69,12 @@ Probability of Being Active |  Expected number of transactions
 
 ***Features***
 - Used to estimate **Average Value Per Transaction**
-- Takes Frequency and Monetary_value features
+- Takes Frequency and Monetary_value features to create observed features x and mx respectively
 
 ***Latent Features***
-- Z = avg transaction value of purchases in the future
-  - p = shape parameter for dist of Z
-  - v = scale parameter for dist of Z
+- E(M) = avg transaction value of purchases in the future
+  - p = shape parameter for dist of E(M)
+  - v = scale parameter for dist of E(M)
 
 ***Assumptions***
 - Monetary value of users’ transactions is random around their mean transaction value.
