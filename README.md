@@ -47,7 +47,7 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 
 ***Latent Features**
 - p = probability customer de-activates after purchase
--  s = shape parameter for dist of p
+ - s = shape parameter for dist of p
  β =  scale parameter for dist of p 
 λ = transaction rate
   r = shape parameter for dist of λ
