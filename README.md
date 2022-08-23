@@ -29,13 +29,21 @@ Joining files from the data base created a dataframe where rows corresponded to 
 ## Methods
 CLV is the present value of all future cash flows of a current customer. Given the application of the model, calculating the value of a customer n periods into the future, we'll estimate a customer's probability of being alive n periods of time in the future and use this parameter to discount the product of frequency and monetary value of their purchases. Thus the forumla becomes CLV at time T = (Transactions per Period X Average Value Per Transaction X Probability of Being Active at Time T).
 
-I used a heirarchical modeling approach estimate each of these three elements of CLV. 
+I used a heirarchical modeling approach to estimate each of these three elements of CLV. This approach combines the BG/NBD model as proposed by [Fader, Hardie and Lee](http://www.brucehardie.com/papers/bgnbd_2004-04-20.pdf) with a Gamma-Gamma model of monetary value proposed by [Fader and Hardie] in follow up to their work on the BG/NBD model. Data preparation and modeling was done with the Lifetimes package [Copyright 2015, Cameron Davidson-Pilon](https://lifetimes.readthedocs.io/en/latest/). 
+
+**Data preperation with Lifetimes**
+The BG/NBD and Gamma-Gamma model fitters in Lifetimes [require data structured into a recency-frequency-monetary_value matrix](https://lifetimes.readthedocs.io/en/latest/Quickstart.html#the-shape-of-your-data). Helpfully, the package provides utility functions for easily transforming raw transaction data into the required format.
+- Index (ID): unique customer identifier (unique to table)
+- Frequency: represents the number of repeat purchases the customer has made.
+- T: age of the customer in whatever time units chosen (days in this project). This is equal to the duration between a customer’s first purchase and the end of the period under study.
+- Recency: age of the customer when they made their most recent purchases. This is equal to the duration between a customer’s first purchase and their latest purchase.
+Monetary_value: represents the average value of a given customer’s purchases. This is equal to the sum of all a customer’s purchases divided by the total number of purchases.
 
 **Beta geometric negative binomial distribution (BG/NBD) model**
 - Used to estimate **Probability of Being Active at Time T** and **Transacitons per Period**
 - After each transaction, an individual has a p_i probability of de-activating (never buying again)
 - Each individual, i, has a hidden transaction per period rate (lambda_i) and probability of de-activating following a purchase (p_i)
-- Individual lambda_i and p_i parameters are contrained by population wide Gamma and a Beta distribution respectively
+- Individual lambda_i and p_i parameters are constrained by population wide Gamma and a Beta distribution respectively
 - Individuals purchases follow a Poisson process with rate lambda_i*t 
 
 **Gamma gamma model (GG)**
