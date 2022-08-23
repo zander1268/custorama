@@ -66,12 +66,20 @@ Probability of Being Active |  Expected number of transactions
 ![Probability of Being Active](https://miro.medium.com/max/1400/0*XVWT9RgmE2AbrJrt)|  ![Expected number of transactions](https://miro.medium.com/max/1388/0*ZMHKxRDAocOn_cSp)
 
 **Gamma gamma model (GG)**
+***Features***
 - Used to estimate **Average Value Per Transaction**
-- For any given customer, total spend across x transactions is distributed gamma
-
-Heterogeneity: Purchase Rate              |  De-activate Risk |  Transaction Value
-:-------------------------:|:-------------------------:|:-------------------------:
-![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)  |  ![De-activate risk distrobution](visuals/beta_deactivate_risk_dist.png) |  ![Avg Transaction value distribution](visuals/avg_transaction_value_dist.png)
+- Takes Frequency and Monetary_value features
+***Latent Features***
+- Z = avg transaction value of purchases in the future
+  - p = shape parameter for dist of Z
+  - v = scale parameter for dist of Z
+***Assumptions***
+- Monetary value of users’ transactions is random around their mean transaction value.
+- Mean transaction value varies across users but doesn’t vary for an individual user over time.
+- Mean transaction values is Gamma distributed across customers.
+***Formula***
+Average Value Per Transaction
+![Probability of Being Active](https://miro.medium.com/max/1400/0*WUSvMTpSgGFq-lA2)
 
 ## Results
 **BG/NBD Model** 
@@ -93,12 +101,16 @@ Cumulative CLV             |  CLV Distribution
 :-------------------------:|:-------------------------:
 ![Predicted CLV ](visuals/cumulative_clv_future.png)  |  ![Cumulative CLV ](visuals/dist_of_clv_in_next_12months.png)
 
-
+**Latent model features**
+Heterogeneity: Purchase Rate              |  De-activate Risk |  Transaction Value
+:-------------------------:|:-------------------------:|:-------------------------:
+![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)  |  ![De-activate risk distrobution](visuals/beta_deactivate_risk_dist.png) |  ![Avg Transaction value distribution](visuals/avg_transaction_value_dist.png)
 
 **Streamlit App**
 App Details             |  App Preview
 :-------------------------:|:-------------------------:
 Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine-jlp5js.streamlitapp.com/) capable of reproducing the above results as well as taking in new transaction data and returning CLV predictions. Using the same [data file](data/lifetimes_object_df.csv) and regularization strength used in my [Jupyter notebook](final_bg_nbd_modeling.ipynb) I was able to replicate the same clv results using the streamlit app. Additionally, the app took in new transaction data from a different business and was able to succesfully process, clean and model CLV predictions demonstrating it's flexibility. |  ![Winjammer Consulting Clv App ](visuals/windjammer_consulting_clv_app.png)
+
 
 ## Conclusions
 TBD
