@@ -70,6 +70,8 @@ Purchase Rate              |  De-activate Risk |  Transaction Value
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)  |  ![De-activate risk distrobution](visuals/beta_deactivate_risk_dist.png) |  ![Avg Transaction value distribution](visuals/avg_transaction_value_dist.png)
 
+Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine-jlp5js.streamlitapp.com/) capable of reproducing the above results as well as taking in new transaction data and returning CLV predictions.
+
 ## Conclusions
 TBD
 
