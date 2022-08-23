@@ -10,9 +10,9 @@ This project creates a user-friendly customer lifetime value (CLV) prediction en
 ## Business Problem
 How much are your customers worth? CLV is a north star metric for marketers and key to many business analyses; sales/marketing activity ROI, sales forecasts, company valuation, churn mitigation tactics, and customer persona analysis. 
 
-Olist, the largest e-commerce department store in Brazil, wants to help the small business merchants who sell goods through their marketplace undrstand their CLV. Olist makes their money taking a commision on orders placed on their marketplace. They want to help their merchants sell more products and retain those merchants on their marketplace by providing top-notch business analytics.
+Olist, the largest e-commerce department store in Brazil, wants to help the small business merchants who sell goods through their marketplace understand their CLV. Olist makes their money taking a commision on orders placed on their marketplace. They want to help their merchants sell more products and retain those merchants on their marketplace by providing top-notch business analytics.
 
-Olist has decided to create a user friendly app to help their merchants better understand the customers who buy their products through the Olist marketplace. Empowering their merchants with CLV analysis will help merchants improve their strategy and increasing sales and commisions through Olist. The addition of a customer insight tool will also improve the retention of merchants on the Olist network. 
+Olist has decided to create a user friendly app to help their merchants better understand the customers who buy their products through the Olist marketplace. Empowering their merchants with CLV analysis will help merchants improve their strategy and increase sales and commissions through Olist. The addition of a customer insight tool will also improve the retention of merchants on the Olist network. 
 
 To accomplish this project, Olist has hired Windjammer Consulting, a data-science consulting firm.
 
@@ -21,11 +21,12 @@ If the model passes muster, they want Windjammer Consulting to create an applica
 
 ## Data
 
-The data for this project was sourced from a [Olist data base provided to Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) containing information on 99,441 online transactions from 96,096 unique customers. Transactions included in the data ranged 773 days, from 2016-09-04 to 2018-10-17.
+The data for this project was sourced from a [Olist database provided to Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce) containing information on 99,441 online transactions from 96,096 unique customers. Transactions included in the data ranged 773 days, from 2016-09-04 to 2018-10-17.
 
-Joining files from the data base created a dataframe where rows corresponded to unique transactions with the necessary features for CLV modeling; a unique customer identifier, transaction time-stamp, and the monetary value of the transaction.
+Joining files from the database created a dataframe where rows correspond to unique transactions with the necessary features for CLV modeling; a unique customer identifier, transaction time-stamp, and the monetary value of the transaction.
 
-Less than 3% of customers in the data ordered more than once which created a significant class imbalence for the modeling techniques used. In a business setting, 3% re-purchase rate is very low. To deal with the class imbalence, I focused the validation of the model on a subset of the data including only users who purchased more than once. The Streamlit app, which is meant to be scalable, doesn't subset data. For Streamlit, I assumed that most businesses don't have this degree of class imbalence and managers will prefer to return predictions for all their customers.
+Less than 3% of customers in the data ordered more than once which created a significant class imbalance for the modeling techniques used. In a business setting, the 3% repurchase rate is very low. Despite the class imbalance the model was able to achieve very accurate predictions for the number of purchases in the future. The class imbalance could pose more of an issue predicting monetary value. I validated that the monetary value model was highly accurate on a small subset of the data that provided transactions in multiple periods. Given the constraints of a time based train and test split, I wasn’t able to validate the model on the 97% of users who only purchased once. To deal with the class imbalance, you could subset the data to include only users who purchased more than once but with the goal of producing a scalable app that works for most businesses, I decided to include all customers. I assumed that most businesses don't have this degree of class imbalance and managers will prefer to return predictions for all their customers.
+
 
 ## Methods
 CLV is the present value of all future cash flows of a current customer. Given the application of the model, calculating the value of a customer n periods into the future, we'll estimate a customer's probability of being alive n periods of time in the future and use this parameter to discount the product of frequency and monetary value of their purchases. Thus the forumla becomes CLV at time T = (Transactions per Period X Average Value Per Transaction X Probability of Being Active at Time T).
@@ -90,8 +91,7 @@ Average Value Per Transaction
 
 ## Results
 **BG/NBD Model** 
-The model was pretty accurate at predicting the number of purchases repeat customers would make 
-Our model is less accurate on the subset of repeat customers because it wasn't able we can't inflate accuracy with the signficant n of correct 0 purchase perdictions that 
+The model was very accurate at predicting the number of purchases customers would make in the future. We significantly improved upon our dummy model  because the model doesn't suffer from the niave assumption that purchase rate will just continue as observed in the past.
 - Final Model: 0.14 RMSE (transactions)
 - Dummy Model: 0.82 RMSE (transactions)
 
