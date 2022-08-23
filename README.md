@@ -90,6 +90,8 @@ Average Value Per Transaction
 
 ## Results
 **BG/NBD Model** 
+The model was pretty accurate at predicting the number of purchases repeat customers would make 
+Our model is less accurate on the subset of repeat customers because it wasn't able we can't inflate accuracy with the signficant n of correct 0 purchase perdictions that 
 - Final Model: 0.14 RMSE (transactions)
 - Dummy Model: 0.82 RMSE (transactions)
 
