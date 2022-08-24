@@ -121,7 +121,7 @@ App Details             |  App Preview
 :-------------------------:|:-------------------------:
 Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine-jlp5js.streamlitapp.com/) capable of reproducing the above results as well as taking in new transaction data and returning CLV predictions. Using the same [data file](data/lifetimes_object_df.csv) and regularization strength used in my [Jupyter notebook](final_bg_nbd_modeling.ipynb) I was able to replicate the same clv results using the streamlit app. Additionally, the app took in new transaction data from a different business and was able to successfully process, clean and model CLV predictions demonstrating its flexibility. |  ![Windjammer Consulting Clv App ](visuals/windjammer_consulting_clv_app.png)
 
-### Limitations & Next Steps
+## Limitations & Next Steps
 **Margin**
 
 Most CLV formulas hold for product margin as part of the calculation. Multiplying margin by the other factors produces a customer lifetime *profit*. This project didn't have access to margin information thus it wasn't included.
