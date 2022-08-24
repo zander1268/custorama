@@ -121,13 +121,28 @@ App Details             |  App Preview
 :-------------------------:|:-------------------------:
 Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine-jlp5js.streamlitapp.com/) capable of reproducing the above results as well as taking in new transaction data and returning CLV predictions. Using the same [data file](data/lifetimes_object_df.csv) and regularization strength used in my [Jupyter notebook](final_bg_nbd_modeling.ipynb) I was able to replicate the same clv results using the streamlit app. Additionally, the app took in new transaction data from a different business and was able to succesfully process, clean and model CLV predictions demonstrating it's flexibility. |  ![Winjammer Consulting Clv App ](visuals/windjammer_consulting_clv_app.png)
 
-
-## Conclusions
-TBD
-
 ### Limitations & Next Steps
-Doesn't include product margin information
-Subset to return customers only
+**Margin**
+
+Most CLV formulas hold for product margin as part of the calculation. Multiplying margin by the other factors produces a customer lifetime *profit*. This project didn't have access to margin information thus it wasn't included.
+
+Future iterations would include margin if that data became available.
+
+**Limited business context applicability**
+
+Applicability limited to non-contractual businesses with continuous purchases. There are other business contexts where this modeling approach is not applicable. [Breakdown of Olist business context](https://github.com/zander1268/custorama/blob/main/visuals/business_context.jpg?raw=true).
+
+Future iterations of the model could be altered to better suit different business contexts.
+
+**Limited number of repeat customers***
+
+Because Gamma Gamma model fitters do not accept zero values in freq and montetary values, I had to fit and validate on the limited subset of users with a repeat purchases. Given the class imbalence this is a limited group. Ideally, there would be more data that included a greater number of repeat purchasers to help better validate gamma gamma model and demonstrate the performance of BG/NBD model over the dummy model.
+
+## Conclusion
+
+This project succesfully created a user-friendly CLV prediction engine and validated it's performance on real world transactional data from Olist with minimal error. The app is built on the same data processing and modeling techniques as the validated model but is capable of taking in unsctructured and unseen data from new merchants and returning important CLV predictions. The app will empower merchants to make better decisions and delight customers. It opens the door to a number of business analyses; marketing ROI, sales forecasts, company valuation, churn risk, and persona analysis. Olist can quickly roll out this tool to it's e-commerce merchants and enjoy greater commisions and retention rate.
+
+
 
  
 ## For More Information
