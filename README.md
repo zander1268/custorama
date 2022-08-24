@@ -5,7 +5,7 @@
 ![windjammer header](visuals/windjammer_logo.jpg)
 
 ## Overview
-This project creates a user-friendly customer lifetime value (CLV) prediction engine able to take in transaction data and return important CLV predictions for the merchant's entire customer base or individual customers over a selected period of time in the future.
+This project creates a user-friendly customer lifetime value (CLV) prediction engine able to take in transaction data and return important CLV predictions with a high degree of accuracy for a merchant's entire customer base and individual customers over a selected period of time in the future. The data processing and modeling techniques were validated on a publicly available e-commerce data set from Olist but the app is flexible enough to re-process and model unstructured transaction data from any non-contractual business with continuous purchasing behavior (ex. grocery purchases, e-commerce, movie rentals).
 
 ## Business Problem
 How much are your customers worth? CLV is a north star metric for marketers and key to many business analyses; sales/marketing activity ROI, sales forecasts, company valuation, churn mitigation tactics, and customer persona analysis. 
