@@ -153,7 +153,7 @@ This project successfully created a user-friendly CLV prediction engine and vali
  
 ## For More Information
 
-See the full analysis in the [Jupyter Notebook](./Code/modeling.ipynb) or review this [presentation](./Churn_Buster_presentation.pdf).
+See the full analysis in the [Jupyter Notebook](./Code/modeling.ipynb) or review this [presentation](./presentation.pdf).
 
 For additional info, contact Alex FitzGerald
 
