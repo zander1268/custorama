@@ -103,7 +103,7 @@ Dummy Model             |  BG/NBD Model
 
 
 **GG Model**
-This model demonstrated the power of hierarchical modeling compared to a niave approach. The dummy model niavely assumed that a customers purchase value will remain the same as previous periods into the future. The hierarchical model uses other customers to constrain the prediction for an individual customer into more realistic bounds while using customer specific features to adjust the prediction along the distribution curve established by the full customer base. This approach created much more accurate predictions for monetary value.
+This model demonstrated the power of hierarchical modeling compared to a naive approach. The dummy model naively assumed that a customers purchase value will remain the same as previous periods into the future. The hierarchical model uses other customers to constrain the prediction for an individual customer into more realistic bounds while using customer specific features to adjust the prediction along the distribution curve established by the full customer base. This approach created much more accurate predictions for monetary value.
 - Final Model: 6.63 RMSE (average transaction value)
 - Dummy Model: 192.78 RMSE (average transaction value)
 
@@ -120,7 +120,7 @@ Heterogeneity: Purchase Rate              |  Heterogeneity: De-activate Risk |  
 
 Latent features: Purchase Rate|  Latent features: De-activate Risk| Latent features: Transaction Value
 :-------------------------:|:-------------------------:|:-------------------------:
-shape (α) = 46.46, scale (r) = 0.01<br>With frequency measured in days, it's not suprising that entire customer base is between 0-1 purchases per day.<img width=200/>|shape (a) = 2.65, scale (β) = 0.37<br>With so many of our customers only purchasing 1x, we'd expect to see this beta discribution heavily skewed toward the right as it is here. This shape indicates that the majority of our customer base is at high risk of being de-active right now.|shape (p) = 10.43, scale (v) = 9.91<br>As expected, our distribution begins above 0 and is right skewed because of a small number of very large purchases. The bulk of purchases are clustered around 100 monetary value.
+shape (α) = 46.46, scale (r) = 0.01<br>With frequency measured in days, it's not surprising that entire customer base is between 0-1 purchases per day.<img width=200/>|shape (a) = 2.65, scale (β) = 0.37<br>With so many of our customers only purchasing 1x, we'd expect to see this beta distribution heavily skewed toward the right as it is here. This shape indicates that the majority of our customer base is at high risk of being de-active right now.|shape (p) = 10.43, scale (v) = 9.91<br>As expected, our distribution begins above 0 and is right skewed because of a small number of very large purchases. The bulk of purchases are clustered around 100 monetary value.
 
 **Streamlit App**
 App Details             |  App Preview
