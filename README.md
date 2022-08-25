@@ -91,6 +91,7 @@ Average Value Per Transaction
 
 ## Results
 **BG/NBD Model** 
+
 The model was very accurate at predicting the number of purchases customers would make in the future. We improved upon our dummy model because the model doesn't suffer from the naive assumption that purchase rate will just continue as observed in the past. It's interesting to note that the gap in performance between the BG/NBD model and dummy approach was greater when data was subsetted to repeat purchasers (0.82 hierarchical vs 0.50 dummy). A naive assumption that no repeat purchases in the observation period would lead to no purchases in the test period was accurate very often given our the class imbalance of the full data. This advantage for the dummy model is removed when the data is subsetted or the model is presented with business data that is less imbalanced. It's encouraging to know this modeling technique will work even better when applied to most merchants.
 
 - Final Model: 0.14 RMSE (transactions)
@@ -102,6 +103,7 @@ Dummy Model             |  BG/NBD Model
 
 
 **GG Model**
+!ADD MORE DETAIL HERE!
 - Final Model: 6.63 RMSE (average transaction value)
 - Dummy Model: 192.78 RMSE (average transaction value)
 
@@ -118,7 +120,7 @@ Heterogeneity: Purchase Rate              |  Heterogeneity: De-activate Risk |  
 
 Purchase Rate Latent features |  Heterogeneity: Purchase Rate 
 :-------------------------:|:-------------------------:
-![Predicted CLV ](visuals/cumulative_clv_future.png)  |  ![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)
+shape (α) = 46.46, scale (r) = 0.01<br>  |  ![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)
 
 **Streamlit App**
 App Details             |  App Preview
