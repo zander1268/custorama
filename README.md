@@ -118,7 +118,7 @@ Heterogeneity: Purchase Rate              |  Heterogeneity: De-activate Risk |  
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)  |  ![De-activate risk distrobution](visuals/beta_deactivate_risk_dist.png) |  ![Avg Transaction value distribution](visuals/avg_transaction_value_dist.png)
 
-Latent features: Purchase Rate<img width=200/>  |  Latent features: De-activate Risk<img width=200/> | Latent features: Transaction Value<img width=200/>
+Latent features: Purchase Rate<img width=400/>  |  Latent features: De-activate Risk<img width=400/> | Latent features: Transaction Value<img width=400/>
 :-------------------------:|:-------------------------:|:-------------------------:
 shape (α) = 46.46, scale (r) = 0.01<br>With frequency measured in days, it's not suprising that entire customer base is between 0-1 purchases per day.|shape (a) = 2.65, scale (β) = 0.37<br>With so many of our customers only purchasing 1x, we'd expect to see this beta discribution heavily skewed toward the right as it is here. This shape indicates that the majority of our customer base is at high risk of being de-active right now.|shape (p) = 10.43, scale (v) = 9.91<br>As expected, our distribution begins above 0 and is right skewed because of a small number of very large purchases. The bulk of purchases are clustered around 100 monetary value.
 
