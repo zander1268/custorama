@@ -136,7 +136,7 @@ Future iterations would include margin if that data became available.
 
 **Limited business context applicability**
 
-Applicability limited to non-contractual businesses with continuous purchases. There are other business contexts where this modeling approach is not applicable. [Breakdown of Olist business context](https://github.com/zander1268/custorama/blob/main/visuals/business_context.jpg?raw=true).
+Applicability limited to non-contractual businesses with continuous purchases. There are other business contexts where this modeling approach is not applicable. [Breakdown of Olist business context](./visuals/business_context.jpg).
 
 Future iterations of the model could be altered to better suit different business contexts.
 
