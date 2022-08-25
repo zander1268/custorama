@@ -149,7 +149,15 @@ Because Gamma Gamma model fitters do not accept zero values in freq and monetary
 This project successfully created a user-friendly CLV prediction engine and validated it's performance on real world transactional data from Olist with minimal error. The app is built on the same data processing and modeling techniques as the validated model but is capable of taking in unstructured and unseen data from new merchants and returning important CLV predictions. The app will empower merchants to make better decisions and delight customers. It opens the door to a number of business analyses; marketing ROI, sales forecasts, company valuation, churn risk, and persona analysis. Olist can quickly roll out this tool to it's e-commerce merchants and enjoy greater commissions and retention rate.
 
 
+## Reproduction Instructions
+To replicate the environment used for this project, follow the steps below. If you run into issues with this process, please reference the Anaconda Documentation on managing environments.
 
+1. Download the [requirements.txt](./requirements.txt) file
+2. Before launching the notebook, execute the below lines of code from the folder containing the environment.yml file:
+    >>> conda create --name lifetime-env python=3.8.5
+    >>> conda activate lifetime-env
+    >>> pip install requirements.txt
+    
  
 ## For More Information
 
