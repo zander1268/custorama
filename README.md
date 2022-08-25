@@ -160,14 +160,19 @@ For additional info, contact Alex FitzGerald
 ## Repository Structure
 
 ```
-├── Code
-│   ├── EDA_notebook.ipynb
-│   ├── modeling.ipynb
-├── Data
-│   ├── churn-in-telecoms-dataset.csv
-│   ├── cleaned_data.csv
-│   ├── feature_importances.csv
-├── Visuals
-├── Churn_Buster_presentation.pdf
+├── data
+│   ├── customer_data_base.zip
+│   ├── lifetimes_object_df.csv
+│   ├── lifetimes_object_df_uncleaned.csv
+├── streamlit
+│   ├── Images
+│   ├── windjammer_clv_engine.py
+├── visuals
+├── working notebooks
+└── .gitignore
+└── EDA_notebook.ipynb
+└── bgnbd_gammagamma_modeling.ipynb
+└── presentation.pdf
+└── requirements.txt
 └── README.md
 ```
