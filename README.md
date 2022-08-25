@@ -43,7 +43,7 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 - Recency: age of the customer when they made their most recent purchases. This is equal to the duration between a customer’s first purchase and their latest purchase.
 - Monetary_value: represents the average value of a given customer’s purchases. This is equal to the sum of all a customer’s purchases divided by the total number of purchases.
 
-###  Beta geometric negative binomial distribution (BG/NBD) model
+###  Beta Geometric Negative Binomial Distribution (BG/NBD) Model
 
 ***Features***
 - Model to estimate **Probability of being active at time T** and **Expected number of transactions at time T**
@@ -51,11 +51,11 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 
 ***Latent Features***
 - p = probability customer de-activates after purchase
-  - s = shape parameter for dist of p
-  - β =  scale parameter for dist of p 
+  - a = shape parameter for dist of p
+  - β = scale parameter for dist of p 
 - λ = transaction rate
-  - r = shape parameter for dist of λ
-  - α = scale parameter for dist of λ
+  - α = shape parameter for dist of λ
+  - r = scale parameter for dist of λ
 - μ = customer lifetime (slope of the exponential dist.)
 
 ***Assumptions***
@@ -65,7 +65,7 @@ The BG/NBD and Gamma-Gamma model fitters in Lifetimes require data structured in
 - Individuals purchases follow a Poisson process with rate λ_i*t
 
 ***Formulas***
-Probability of Being Active |  Expected number of transactions
+Probability of Being Active |  Expected Number of Transactions
 :-------------------------:|:-------------------------:
 ![Probability of Being Active](https://miro.medium.com/max/1400/0*XVWT9RgmE2AbrJrt)|  ![Expected number of transactions](https://miro.medium.com/max/1388/0*ZMHKxRDAocOn_cSp)
 
@@ -113,14 +113,14 @@ Cumulative CLV             |  CLV Distribution
 :-------------------------:|:-------------------------:
 ![Predicted CLV ](visuals/cumulative_clv_future.png)  |  ![Cumulative CLV ](visuals/dist_of_clv_in_next_12months.png)
 
-**Latent model features**
+**Latent Model Features**
 Heterogeneity: Purchase Rate              |  Heterogeneity: De-activate Risk |  Heterogeneity: Transaction Value
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)  |  ![De-activate risk distrobution](visuals/beta_deactivate_risk_dist.png) |  ![Avg Transaction value distribution](visuals/avg_transaction_value_dist.png)
 
-Purchase Rate Latent features |  Heterogeneity: Purchase Rate 
-:-------------------------:|:-------------------------:
-shape (α) = 46.46, scale (r) = 0.01<br>  |  ![Purchase rate distribution](visuals/gamma_purchase_rate_dist.png)
+Latent features: Purchase Rate  |  Latent features: De-activate Risk | Latent features: Transaction Value
+:-------------------------:|:-------------------------:|:-------------------------:
+shape (α) = 46.46, scale (r) = 0.01<br>With frequency measured in days, it's not suprising that entire customer base is between 0-1 purchases per day.  |shape (a) = 2.65, scale (β) = 0.37<brWith so many of our customers only purchasing 1x, we'd expect to see this beta discribution heavily skewed toward the right as it is here. This shape indicates that the majority of our customer base is at high risk of being de-active right now.|shape (p) = 10.43, scale (v) = 9.91<br>As expected, our distribution begins above 0 and is right skewed because of a small number of very large purchases. The bulk of purchases are clustered around 100 monetary value.
 
 **Streamlit App**
 App Details             |  App Preview
