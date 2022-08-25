@@ -154,10 +154,11 @@ To replicate the environment used for this project, follow the steps below. If y
 
 1. Download the [requirements.txt](./requirements.txt) file
 2. Before launching the notebook, execute the below lines of code from the folder containing the environment.yml file:
+```
     >>> conda create --name lifetime-env python=3.8.5
     >>> conda activate lifetime-env
     >>> pip install requirements.txt
-    
+ ```   
  
 ## For More Information
 
