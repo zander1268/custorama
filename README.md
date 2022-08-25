@@ -125,7 +125,7 @@ shape (α) = 46.46, scale (r) = 0.01<br>With frequency measured in days, it's no
 **Streamlit App**
 App Details             |  App Preview
 :-------------------------:|:-------------------------:
-Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine-jlp5js.streamlitapp.com/) capable of reproducing the above results as well as taking in new transaction data and returning CLV predictions. Using the same [data file](data/lifetimes_object_df.csv) and regularization strength used in my [Jupyter notebook](final_bg_nbd_modeling.ipynb) I was able to replicate the same clv results using the streamlit app. Additionally, the app took in new transaction data from a different business and was able to successfully process, clean and model CLV predictions demonstrating its flexibility. |  ![Windjammer Consulting Clv App ](visuals/windjammer_consulting_clv_app.png)
+Live [Streamlit App](https://zander1268-custorama-streamlitwindjammer-clv-engine-jlp5js.streamlitapp.com/) capable of reproducing the above results as well as taking in new transaction data and returning CLV predictions. Using the same [data file](data/lifetimes_object_df.csv) and regularization strength used in my [Jupyter notebook](./bgnbd_gammagamma_modeling.ipynb) I was able to replicate the same clv results using the streamlit app. Additionally, the app took in new transaction data from a different business and was able to successfully process, clean and model CLV predictions demonstrating its flexibility. |  ![Windjammer Consulting Clv App ](visuals/windjammer_consulting_clv_app.png)
 
 ## Limitations & Next Steps
 **Margin**
@@ -153,7 +153,7 @@ This project successfully created a user-friendly CLV prediction engine and vali
  
 ## For More Information
 
-See the full analysis in the [Jupyter Notebook](./final_bg_nbd_modeling.ipynbb) or review this [presentation](./presentation.pdf).
+See the full analysis in the [Jupyter Notebook](./bgnbd_gammagamma_modeling.ipynb) or review this [presentation](./presentation.pdf).
 
 For additional info, contact Alex FitzGerald
 
